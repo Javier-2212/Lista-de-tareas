@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Tareas</title>
+    <style>
+        /* CSS */
+
+        .container {
+            width: 50%;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .task-input {
+            margin-top: 20px;
+        }
+
+        .task-list ul,
+        .completed-task-list ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .task-list li,
+        .completed-task-list li {
+            background-color: #f2f2f2;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .task-list li.blue {
+            color: blue;
+        }
+
+        .task-list li.black {
+            color: black;
+        }
+
+        /* Botón de Completar y Eliminar */
+        .completeTaskButton,
+        .completed-task-list button {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        /* Botón de Completar */
+        .completeTaskButton {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        /* Botón de Eliminar */
+        .completed-task-list button {
+            background-color: #e74c3c;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            <h1>Daily List</h1>
+        </div>
+
+        <div class="task-input">
+            <input type="text" id="taskInput" placeholder="Escribe una nueva tarea">
+            <button id="addTaskButton">Agregar Tarea</button>
+        </div>
+
+        <div class="task-list">
+            <h3>Tareas</h3>
+            <ul id="taskList">
+                <li>Ejemplo de tarea 1 <button class="completeTaskButton">Completar</button></li>
+                <li>Ejemplo de tarea 2 <button class="completeTaskButton">Completar</button></li>
+            </ul>
+        </div>
+
+        <div class="completed-task-list">
+            <h3>Tareas Terminadas</h3>
+            <ul id="completedTaskList">
+                <!-- Aquí se agregarán las tareas completadas -->
+            </ul>
+        </div>
+
+        <div class="author-info">
+            <p>Por: Francisco Javier Núñez Gonzalez</p>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript
+        document.getElementById('addTaskButton').addEventListener('click', addTask);
+        
+        function addTask() {
+            const taskInput = document.getElementById('taskInput');
+            const taskText = taskInput.value.trim();
+            
+            if (taskText) {
+                const newTask = document.createElement('li');
+                newTask.innerHTML = taskText + ' <button class="completeTaskButton">Completar</button>';
+                document.getElementById('taskList').appendChild(newTask);
+                taskInput.value = '';
+                
+                newTask.querySelector('.completeTaskButton').addEventListener('click', () => completeTask(newTask));
+            }
+        }
+
+        function completeTask(taskItem) {
+            taskItem.querySelector('.completeTaskButton').remove(); // Elimina el botón "Completar"
+            
+            const deleteButton = document.createElement('button');
+            deleteButton.textContent = 'Eliminar';
+            deleteButton.addEventListener('click', () => taskItem.remove());
+            taskItem.appendChild(deleteButton);
+
+            document.getElementById('completedTaskList').appendChild(taskItem);
+        }
+    </script>
+
+</body>
+</html>
